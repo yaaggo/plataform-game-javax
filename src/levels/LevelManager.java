@@ -5,7 +5,7 @@ import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
+
 
 import static main.Game.TILES_SIZE;
 
@@ -41,11 +41,14 @@ public class LevelManager {
                 g.drawImage(levelSprite[index], TILES_SIZE * j, TILES_SIZE * i, TILES_SIZE, TILES_SIZE, null);
             }
         }
-
     }
 
     public void update() {
 
+    }
+
+    public Level getCurrentLevel() {
+        return levelOne;
     }
 
 }
