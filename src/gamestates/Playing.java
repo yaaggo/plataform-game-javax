@@ -13,7 +13,7 @@ public class Playing extends State implements Statemethods{
     private Player player;
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
-    private boolean paused = true;
+    private boolean paused = false;
 
     public Playing(Game game) {
         super(game);
@@ -24,7 +24,7 @@ public class Playing extends State implements Statemethods{
         levelManager = new LevelManager(game);
         player = new Player(200, 200, (int) (64 * game.SCALE), (int) (40 * game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-        pauseOverlay = new PauseOverlay();
+        pauseOverlay = new PauseOverlay(this);
     }
 
     public void windowFocusLost() {
@@ -37,18 +37,26 @@ public class Playing extends State implements Statemethods{
 
     @Override
     public void update() {
-        levelManager.update();
-        player.update();
-
-        pauseOverlay.update();
+        if(!paused) {
+            levelManager.update();
+            player.update();
+        } else {
+            pauseOverlay.update();
+        }
     }
 
     @Override
     public void draw(Graphics g) {
         levelManager.draw(g);
         player.render(g);
+        if(paused)
+            pauseOverlay.draw(g);
+    }
 
-        pauseOverlay.draw(g);
+    public void mouseDragged(MouseEvent e) {
+        if(paused) {
+            pauseOverlay.mouseDragged(e);
+        }
     }
 
     @Override
@@ -79,6 +87,10 @@ public class Playing extends State implements Statemethods{
         }
     }
 
+    public void unpauseGame() {
+        paused = false;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -91,8 +103,8 @@ public class Playing extends State implements Statemethods{
             case KeyEvent.VK_SPACE:
                 player.setJump(true);
                 break;
-            case KeyEvent.VK_BACK_SPACE:
-                Gamestate.state = Gamestate.MENU;
+            case KeyEvent.VK_ESCAPE:
+                paused = !paused;
                 break;
         }
     }
