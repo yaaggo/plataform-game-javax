@@ -73,6 +73,7 @@ public class PauseOverlay {
         }
         musicButton.resetBools();
         sfxButton.resetBools();
+
     }
 
     public void mouseMoved(MouseEvent e) {
