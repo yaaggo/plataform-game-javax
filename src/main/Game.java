@@ -1,6 +1,5 @@
 package main;
 
-import entities.Player;
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
@@ -54,7 +53,10 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.update();
                 break;
+            case OPTIONS:
+            case QUIT:
             default:
+                System.exit(0);
                 break;
         }
     }
